@@ -88,7 +88,7 @@ function main(): void {
         const cv = getControlValues();
         seed = cv.seed;
         const config = buildConfig(cv);
-        const humans = generateAgents(config, seed);
+        const humans = generateAgents(config, seed, cv.traitDistribution);
         const initialEdges = generateImportanceEdges(humans, config, seed);
         initialEdgesForExport = initialEdges;
         state = createInitialState(config, humans, initialEdges, seed);

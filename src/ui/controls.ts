@@ -3,6 +3,8 @@
  */
 
 import type { RunConfig } from '../types';
+import type { TraitDistribution } from './trait-pie';
+import { createTraitPie } from './trait-pie';
 
 export interface ControlValues {
   diffuse_threshold: number;
@@ -14,6 +16,7 @@ export interface ControlValues {
   seed: number;
   steps: number;
   messages_per_step_mean: number;
+  traitDistribution: TraitDistribution;
 }
 
 export interface ControlsCallbacks {
@@ -52,6 +55,7 @@ export function createControls(
     seed: Math.floor(Math.random() * 900000) + 10000,
     steps: 300,
     messages_per_step_mean: 1.2,
+    traitDistribution: initial.traitDistribution ?? [1 / 3, 1 / 3, 1 / 3],
     ...initial,
   };
 
@@ -88,6 +92,15 @@ export function createControls(
     slidersWrap.appendChild(row);
   }
   left.appendChild(slidersWrap);
+
+  const pieWrap = document.createElement('div');
+  pieWrap.className = 'trait-pie-section';
+  const getTraitPieValues = createTraitPie(
+    pieWrap,
+    values.traitDistribution,
+    (p) => { values.traitDistribution = p; }
+  );
+  left.appendChild(pieWrap);
 
   const actions = document.createElement('div');
   actions.className = 'controls-actions';
@@ -128,5 +141,5 @@ export function createControls(
   top.appendChild(modeWrap);
   container.appendChild(top);
 
-  return () => ({ ...values });
+  return () => ({ ...values, traitDistribution: getTraitPieValues() });
 }

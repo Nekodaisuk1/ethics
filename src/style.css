@@ -121,6 +121,55 @@ body {
   align-items: center;
   gap: 8px;
 }
+
+/* 行動特性の円グラフ（ドラッグで編集） */
+.trait-pie-section {
+  flex-shrink: 0;
+}
+.trait-pie-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.trait-pie-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.trait-pie-svg {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  touch-action: none;
+}
+.trait-pie-handle {
+  pointer-events: all;
+}
+.trait-pie-legend {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.trait-pie-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.trait-pie-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.trait-pie-name {
+  min-width: 2.5em;
+}
+.trait-pie-pct {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
 .btn {
   padding: 8px 14px;
   background: var(--accent-dim);

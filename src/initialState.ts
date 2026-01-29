@@ -3,22 +3,29 @@
  */
 
 import type { HumanAgent, Traits, RunConfig, ImportanceEdge } from './types';
+import type { TraitDistribution } from './ui/trait-pie';
 import { createRng, clamp } from './rng';
 
-export function generateAgents(config: RunConfig, seed: number): HumanAgent[] {
+export function generateAgents(
+  config: RunConfig,
+  seed: number,
+  traitMeans?: TraitDistribution
+): HumanAgent[] {
   const rng = createRng(seed);
   const humans: HumanAgent[] = [];
   const N = config.N;
   const K = config.K;
   const defaultThreshold = config.ai_delegate_threshold_default;
+  const spread = 0.4;
+  const [meanSoc, meanAvo, meanCur] = traitMeans ?? [1 / 3, 1 / 3, 1 / 3];
 
   for (let i = 0; i < N; i++) {
     const id = `h${String(i).padStart(2, '0')}`;
     const type = i % K;
     const traits: Traits = {
-      sociability: rng(),
-      avoidance: rng(),
-      curiosity: rng(),
+      sociability: clamp(meanSoc + (rng() - 0.5) * spread, 0, 1),
+      avoidance: clamp(meanAvo + (rng() - 0.5) * spread, 0, 1),
+      curiosity: clamp(meanCur + (rng() - 0.5) * spread, 0, 1),
     };
     const ai_delegate_threshold = Math.round(clamp(defaultThreshold + (rng() - 0.5) * 2, 0, 5));
     const ai_strength = 0.3 + rng() * 0.7;
