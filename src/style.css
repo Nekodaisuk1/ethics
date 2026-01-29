@@ -1,0 +1,236 @@
+/* レトログラフィック・サイドバーなし・単一画面 */
+
+:root {
+  --bg: #1a1810;
+  --surface: #2a2620;
+  --border: #4a4538;
+  --text: #e8e0c8;
+  --muted: #8a8270;
+  --accent: #c4a035;
+  --accent-dim: #8a7040;
+  --edge-color: rgba(180, 160, 100, 0.6);
+  --node-fill: #c4a035;
+  --node-stroke: #2a2520;
+  --particle-fill: rgba(220, 200, 120, 0.9);
+  --particle-stroke: rgba(180, 160, 80, 0.8);
+  --chart-human-color: #7cb342;
+  --chart-ai-color: #ef5350;
+  --font-mono: 'DotGothic16', 'Noto Sans JP', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ヘッダー */
+.header {
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--border);
+  background: var(--surface);
+}
+.title {
+  margin: 0 0 4px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+.subtitle {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* コントロール（インライン・サイドバー禁止） */
+.controls-container {
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.controls-bar {
+  width: 100%;
+}
+.controls-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+}
+.controls-sliders-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  max-width: 100%;
+}
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.control-row label {
+  min-width: 100px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.control-row input[type='range'] {
+  width: 80px;
+  accent-color: var(--accent);
+}
+.control-row input[type='number'] {
+  width: 72px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 6px;
+  font-family: inherit;
+}
+.control-value {
+  min-width: 36px;
+  font-size: 12px;
+  color: var(--accent);
+}
+.controls-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.controls-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn {
+  padding: 8px 14px;
+  background: var(--accent-dim);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-run {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-run:hover {
+  filter: brightness(1.1);
+}
+.btn-toggle {
+  font-size: 12px;
+}
+
+/* メインエリア（G1 + G2 + G3） */
+.main-area {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
+  gap: 12px;
+  padding: 12px 16px;
+  min-height: 0;
+}
+.network-container {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  min-width: 0;
+  min-height: 400px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+.network-wrap {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+}
+.network-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.network-canvas {
+  display: block;
+}
+.dashboard-container {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 200px;
+}
+.chart-container {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 280px;
+  min-height: 200px;
+}
+
+/* G2 ダッシュボード */
+.dashboard-panel {
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dashboard-cell {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: var(--bg);
+  border: 1px solid transparent;
+}
+.dashboard-cell--highlight {
+  border-color: var(--accent-dim);
+  color: var(--accent);
+}
+.dashboard-label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.dashboard-value {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* G3 チャート */
+.chart-svg {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.chart-axis {
+  font-size: 10px;
+  color: var(--muted);
+}
+.chart-axis path,
+.chart-axis line {
+  stroke: var(--border);
+}
